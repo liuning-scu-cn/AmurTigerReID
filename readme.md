@@ -17,8 +17,8 @@ train data: &ensp;
 test data: &ensp;
 
 ### competition dataset  
-trainset &ensp;&ensp;-> &ensp;&ensp;./dataload/dataloader.py  
-testset &ensp;&ensp;&ensp;-> &ensp;&ensp;./dataload/dataloader.py
+trainset &ensp;&ensp;=> &ensp;&ensp;./dataload/dataloader.py  
+testset &ensp;&ensp;=> &ensp;&ensp;./dataload/dataloader.py
 
 
 ### Train  
