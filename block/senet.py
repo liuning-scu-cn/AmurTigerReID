@@ -26,7 +26,7 @@ import torch.nn.functional as F
 from .registry import register_model
 from .helpers import load_pretrained
 from .adaptive_avgmax_pool import SelectAdaptivePool2d
-from dataload.constant import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
+from dataload import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 
 __all__ = ['SENet']
 
