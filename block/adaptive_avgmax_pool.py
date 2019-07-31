@@ -4,7 +4,7 @@
 # Author: LiuNing
 # Contact: 2742229056@qq.com
 # Software: PyCharm
-# File: __init__.py.py
+# File: adaptive_avgmax_pool.py
 # Time: 7/30/19 8:58 PM
 # Description:
 #-------------------------------------------------------------------------------
