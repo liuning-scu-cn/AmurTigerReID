@@ -6,7 +6,7 @@
 # Software: PyCharm
 # File: resnet.py
 # Time: 6/26/19 6:55 PM
-# Description: 
+# Description: resnet model
 # -------------------------------------------------------------------------------
 
 import torch.nn as nn

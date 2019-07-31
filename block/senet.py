@@ -6,7 +6,7 @@
 # Software: PyCharm
 # File: senet.py
 # Time: 6/27/19 4:24 PM
-# Description: 
+# Description: senet model
 # -------------------------------------------------------------------------------
 
 """

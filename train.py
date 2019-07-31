@@ -6,7 +6,7 @@
 # Software: PyCharm
 # File: train.py
 # Time: 7/30/19 9:30 PM
-# Description: 
+# Description: train model
 #-------------------------------------------------------------------------------
 
 

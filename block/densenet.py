@@ -6,7 +6,7 @@
 # Software: PyCharm
 # File: densenet.py
 # Time: 6/26/19 6:58 PM
-# Description: 
+# Description: densenet model
 # -------------------------------------------------------------------------------
 import re
 import torch

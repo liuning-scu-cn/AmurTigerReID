@@ -6,7 +6,7 @@
 # Software: PyCharm
 # File: inception.py
 # Time: 6/26/19 6:59 PM
-# Description: 
+# Description: inception model
 # -------------------------------------------------------------------------------
 
 import torch
