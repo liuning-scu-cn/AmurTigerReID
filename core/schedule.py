@@ -4,7 +4,7 @@
 # Author: LiuNing
 # Contact: 2742229056@qq.com
 # Software: PyCharm
-# File: Schedule.py
+# File: schedule.py
 # Time: 6/27/19 9:17 PM
 # Description: 
 # -------------------------------------------------------------------------------
