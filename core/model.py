@@ -571,7 +571,6 @@ class tiger_cnn5(nn.Module):
         x = self.backbone.layer4(x)
         x = torch.mean(torch.mean(x, dim=2), dim=2)
         x = self.fc7(x)
-        x = l2_norm(x)
 
         return [x, ]
 
@@ -586,14 +585,14 @@ class tiger_cnn5(nn.Module):
 
         x = torch.mean(torch.mean(x, dim=2), dim=2)
         x = self.fc7(x)
-        x = l2_norm(x)
+        feature = l2_norm(x)
 
         # TigerID
         glogit = self.cls(x)
         # Left/Right
         dlogit = self.cls_direction(x)
 
-        return [glogit, dlogit, x]
+        return [glogit, dlogit, feature]
 
 
 ########################################################################
@@ -604,7 +603,7 @@ class tiger_cnn5(nn.Module):
 #
 class tiger_cnn6(nn.Module):
     def __init__(self, classes=107):
-        super(tiger_cnn5, self).__init__()
+        super(tiger_cnn6, self).__init__()
 
         model1 = tiger_cnn1(classes)
         for p in model1.parameters():
@@ -664,7 +663,7 @@ class tiger_cnn6(nn.Module):
 #
 class tiger_cnn7(nn.Module):
     def __init__(self, classes=107):
-        super(tiger_cnn6, self).__init__()
+        super(tiger_cnn7, self).__init__()
 
         model1 = tiger_cnn1(classes)
         for p in model1.parameters():
