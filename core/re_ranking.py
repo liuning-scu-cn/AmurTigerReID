@@ -1,5 +1,15 @@
-#!/usr/bin/env python2/python3
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*
+
+# -------------------------------------------------------------------------------
+# Author: LiuNing
+# Contact: 2742229056@qq.com
+# Software: PyCharm
+# File: re_rank.py
+# Time: 6/26/19 6:59 PM
+# Description:
+# -------------------------------------------------------------------------------
+
+
 """
 Created on Mon Jun 26 14:46:56 2017
 @author: luohao
