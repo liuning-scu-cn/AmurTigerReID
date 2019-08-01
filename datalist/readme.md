@@ -3,7 +3,7 @@
 [2019.8.1]
 
 ### train.txt  
-split = ' '
+the image path is relative path.
 
 | image_path | class_name | left(0)/right(1)|
 | :--------: | :--------: | :-------------: |
@@ -14,6 +14,6 @@ split = ' '
 ### test.txt
 | image_path |
 | :--------: |
-| train/1/001888.jpg |
-| train/1/001983.jpg |
+| test/002107.jpg |
+| test/001133.jpg |
 | ... |
