@@ -534,9 +534,6 @@ class tiger_cnn6(nn.Module):
 
         return [glogit, dlogit]
 
-########################################################################
-# 测试函数是否正确
-#
 # if __name__ == '__main__':
 #     net = tiger_cnn1(num_classes=10)
 #     x = Variable(torch.randn(2, 3, 448, 448))
