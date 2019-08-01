@@ -344,7 +344,7 @@ class tiger_cnn3(nn.Module):
 
 
 ########################################################################
-# Solution Three: tiger_cnn3
+# Solution Four: tiger_cnn4
 # Multitask: Tiger ID, Left/right
 # Backbone: SE-ResNet50
 # DoubleBranch: backbone, erase
