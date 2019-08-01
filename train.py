@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Author: LiuNing
 # Contact: 2742229056@qq.com
 # Software: PyCharm
 # File: train.py
 # Time: 7/30/19 9:30 PM
 # Description: train model
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 
 import torch.optim as optim
@@ -56,7 +56,7 @@ def main():
 
     feature_size = 1024
 
-    if model_name=='tiger_cnn1':
+    if model_name == 'tiger_cnn1':
         net = tiger_cnn1(classes=107)
         ignore_params = list(map(id, net.cls.parameters()))
         ignore_params += list(map(id, net.cls_direction.parameters()))
@@ -303,5 +303,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
