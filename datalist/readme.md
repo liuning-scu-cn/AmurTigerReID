@@ -12,6 +12,8 @@ the image path is relative path.
 | ... | ... | ... |
 
 ### test.txt
+the image path is relative path.
+
 | image_path |
 | :--------: |
 | test/002107.jpg |
