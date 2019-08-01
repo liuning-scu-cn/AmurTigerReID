@@ -17,6 +17,4 @@ If you want to get our trained model and log, please download from ... ,and you 
 | tiger_cnn5|  0.0        |  0.0%         |  0.0%         |  0.0       |  0.0%        |  0.0%        |
 | tiger_cnn6| 87.8        | 95.4%         | 98.2%         | 58.4       | 89.7%        | 94.8%        |
 | tiger_cnn7| 87.7        | 95.7%         | 98.0%         | 58.0       | 88.5%        | 92.0%        |
-
-
-
+| finetune_triplet| 90.2  | 97.1%         | 98.2%         | 60.7       | 89.7%        | 96.5%        |
