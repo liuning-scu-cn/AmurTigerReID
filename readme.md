@@ -12,9 +12,18 @@
 https://github.com/liuning-scu-cn/AmurTigerReID
 
 ### prepare data  
-train data: &ensp;
+train data:
 
-test data: &ensp;
+Please download from https://lilablobssc.blob.core.windows.net/cvwc2019/train/atrw_reid_train.tar.gz
+
+test data:
+
+Please download from https://lilablobssc.blob.core.windows.net/cvwc2019/test/atrw_reid_test.tar.gz
+
+Train Annotations:
+
+Please download from https://lilablobssc.blob.core.windows.net/cvwc2019/train/atrw_anno_reid_train.tar.gz
+
 
 ### competition dataset  
 train_set &ensp;&ensp;=> &ensp;&ensp;./dataload/dataloader.py  
@@ -26,3 +35,5 @@ in train.py
 
 ### Test  
 in test.py  
+
+
