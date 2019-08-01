@@ -4,7 +4,7 @@
 # Author: LiuNing
 # Contact: 2742229056@qq.com
 # Software: PyCharm
-# File: Constant.py
+# File: constant.py
 # Time: 6/27/19 4:46 PM
 # Description: 
 #-------------------------------------------------------------------------------
