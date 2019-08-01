@@ -2,11 +2,11 @@
 ### Recent Updates
 [2019.8.1]
 
--train.txt: official train-set, training model.
+* train.txt: official train-set, training model.
 
--gallery.txt and probe.txt: only validate the model, and it doesn't train our model.
+* gallery.txt and probe.txt: only validate the model, and it doesn't train our model.
 
--test.txt: official test-set, non-labeled, and it only outputs the results by the training model.
+* test.txt: official test-set, non-labeled, and it only outputs the results by the training model.
 
 ### train.txt  
 the image path is relative path.
