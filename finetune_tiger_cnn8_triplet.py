@@ -53,10 +53,10 @@ def main():
 
     feature_size = 1024
 
-    net = tiger_cnn5(classes=107)
-    ignore_params = list(map(id, net.cls.parameters()))
-    ignore_params += list(map(id, net.cls_direction.parameters()))
-    ignore_params += list(map(id, net.fc7.parameters()))
+    net = tiger_cnn8(classes=107)
+    ignore_params = list(map(id, net.fuse_fc7.parameters()))
+    ignore_params += list(map(id, net.fuse_cls.parameters()))
+    ignore_params += list(map(id, net.fuse_cls_direction.parameters()))
     base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
     extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
     optimizer = optim.SGD(
@@ -68,6 +68,7 @@ def main():
     exp_lr_scheduler = StepLRScheduler(optimizer=optimizer, decay_t=20, decay_rate=0.1, warmup_lr_init=1e-5, warmup_t=3)
 
     net.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt'))
+    net.fix_params(is_training=False)
     net = net.cuda()
     if multi_gpus:
         net = nn.DataParallel(net).cuda()

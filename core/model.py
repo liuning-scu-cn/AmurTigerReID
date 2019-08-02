@@ -572,6 +572,7 @@ class tiger_cnn5(nn.Module):
         x = self.backbone.layer4(x)
         x = torch.mean(torch.mean(x, dim=2), dim=2)
         x = self.fc7(x)
+        x = l2_norm(x)
 
         return [x, ]
 
@@ -586,14 +587,14 @@ class tiger_cnn5(nn.Module):
 
         x = torch.mean(torch.mean(x, dim=2), dim=2)
         x = self.fc7(x)
-        feature = l2_norm(x)
+        x = l2_norm(x)
 
         # TigerID
         glogit = self.cls(x)
         # Left/Right
         dlogit = self.cls_direction(x)
 
-        return [glogit, dlogit, feature]
+        return [glogit, dlogit, x]
 
 
 ########################################################################
@@ -718,6 +719,174 @@ class tiger_cnn7(nn.Module):
         dlogit = self.cls_direction(x)
 
         return [glogit, dlogit]
+
+
+########################################################################
+# Solution Three: tiger_cnn8
+# Multitask: Tiger ID, Left/right
+# Backbone: SE-ResNet50
+# DoubleBranch: backbone, erase
+# Concat-Fuse
+# Loss Function: LabelSmoothingCrossEntropy + TripletLoss + Finetune(tiger_cnn3)
+#
+class tiger_cnn8(nn.Module):
+    def __init__(self, classes=107, stride=1):
+        super(tiger_cnn8, self).__init__()
+        self.classes = classes
+
+        # backbone
+        model = seresnet50(pretrained=True)
+        if stride == 1:
+            model.layer4[0].downsample[0].stride = (1, 1)
+            model.layer4[0].conv2.stride = (1, 1)
+        self.backbone = model
+        self.fc7 = nn.Sequential(
+            nn.Linear(2048, 512),
+            nn.BatchNorm1d(512),
+            nn.Dropout(0.5)
+        )
+        self.cls = nn.Linear(512, classes)
+        self.cls_direction = nn.Linear(512, 2)
+
+        # erase
+        model2 = seresnet50(pretrained=True)
+        if stride == 1:
+            model2.layer4[0].downsample[0].stride = (1, 1)
+            model2.layer4[0].conv2.stride = (1, 1)
+        self.erase = model2
+        self.erase_fc7 = nn.Sequential(
+            nn.Linear(2048, 512),
+            nn.BatchNorm1d(512),
+            nn.Dropout(0.5)
+        )
+        self.erase_cls = nn.Linear(512, classes)
+        self.erase_cls_direction = nn.Linear(512, 2)
+
+        # fuse
+        self.fuse_fc7 = nn.Sequential(
+            nn.Linear(4096, 512),
+            nn.BatchNorm1d(512),
+            nn.Dropout(0.5)
+        )
+        self.fuse_cls = nn.Linear(512, classes)
+        self.fuse_cls_direction = nn.Linear(512, 2)
+
+        self.my_upsample = nn.Upsample(size=(288, 448), mode='bilinear', align_corners=True)
+        self.loss = LabelSmoothingCrossEntropy(smoothing=0.1)
+
+    def normalize_atten_maps(self, atten_maps):
+        atten_shape = atten_maps.size()
+        batch_mins, _ = torch.min(atten_maps.view(atten_shape[0:-2] + (-1,)), dim=-1, keepdim=True)
+        batch_maxs, _ = torch.max(atten_maps.view(atten_shape[0:-2] + (-1,)), dim=-1, keepdim=True)
+        atten_normed = (atten_maps.view(atten_shape[0:-2] + (-1,)) - batch_mins) / (batch_maxs - batch_mins)
+        atten_normed = atten_normed.view(atten_shape)
+        return atten_normed
+
+    def erase_feature_maps(self, atten_map_normed, feature_maps, threshold, flag=False):
+        if len(atten_map_normed.size()) > 3:
+            atten_map_normed = torch.squeeze(atten_map_normed)
+        atten_shape = atten_map_normed.size()
+
+        if flag:
+            mask = torch.zeros_like(atten_map_normed)
+            for i in range(atten_shape[0]):
+                tmp = torch.zeros_like(atten_map_normed[i]).cuda()
+                pos = torch.ge(atten_map_normed[i], threshold)
+                tmp[pos.data] = 1.0
+                mask[i] = tmp
+        else:
+            mask = torch.ones_like(atten_map_normed)
+            for i in range(atten_shape[0]):
+                tmp = torch.ones_like(atten_map_normed[i])
+                pos = torch.ge(atten_map_normed[i], threshold)
+                tmp[pos.data] = 0.0
+                mask[i] = tmp
+        mask = torch.unsqueeze(mask, dim=1)
+
+        erased_feature_maps = feature_maps * Variable(mask)
+        return erased_feature_maps
+
+    def fix_params(self, is_training=True):
+        for p in self.backbone.parameters():
+            p.requires_grad = is_training
+        for p in self.erase.parameters():
+            p.requires_grad = is_training
+        for p in self.fc7.parameters():
+            p.requires_grad = is_training
+        for p in self.cls.parameters():
+            p.requires_grad = is_training
+        for p in self.cls_direction.parameters():
+            p.requires_grad = is_training
+        for p in self.erase_fc7.parameters():
+            p.requires_grad = is_training
+        for p in self.erase_cls.parameters():
+            p.requires_grad = is_training
+        for p in self.erase_cls_direction.parameters():
+            p.requires_grad = is_training
+
+    def get_loss(self, logits, labels, direction):
+
+        loss1 = self.loss(logits[0], labels) + self.loss(logits[1], direction)
+        triplet_loss = global_loss(TripletLoss(margin=0.3), logits[2], labels)[0]
+        loss = loss1 + triplet_loss
+        return loss
+
+    def features(self, x):
+        # backbone
+        x1 = x.detach()
+        x = self.backbone.layer0(x)
+        x = self.backbone.layer1(x)
+        x = self.backbone.layer2(x)
+        x = self.backbone.layer3(x)
+        x = self.backbone.layer4(x)
+        x = torch.mean(torch.mean(x, dim=2), dim=2)
+
+        # erase
+        x1 = self.erase.layer0(x1)
+        x1 = self.erase.layer1(x1)
+        x1 = self.erase.layer2(x1)
+        x1 = self.erase.layer3(x1)
+        x1 = self.erase.layer4(x1)
+
+        x1 = torch.mean(torch.mean(x1, dim=2), dim=2)
+
+        # fuse
+        fuse_f = torch.cat((x, x1), dim=1)
+        x2 = self.fuse_fc7(fuse_f)
+        x2 = l2_norm(x2)
+
+        return [x2, ]
+
+    def forward(self, x, label=None, direction=None):
+        # backbone
+        x1 = x.detach()
+        x = self.backbone.layer0(x)
+        x = self.backbone.layer1(x)
+        x = self.backbone.layer2(x)
+        x = self.backbone.layer3(x)
+        x = self.backbone.layer4(x)
+        x = torch.mean(torch.mean(x, dim=2), dim=2)
+
+        # erase
+        x1 = self.erase.layer0(x1)
+        x1 = self.erase.layer1(x1)
+        x1 = self.erase.layer2(x1)
+        x1 = self.erase.layer3(x1)
+        x1 = self.erase.layer4(x1)
+
+        x1 = torch.mean(torch.mean(x1, dim=2), dim=2)
+
+        # fuse
+        fuse_f = torch.cat((x, x1), dim=1)
+        x2 = self.fuse_fc7(fuse_f)
+        x2 = l2_norm(x2)
+
+        # TigerID
+        fuse_glogit = self.fuse_cls(x2)
+        # Left/Right
+        fuse_dlogit = self.fuse_cls_direction(x2)
+
+        return [fuse_glogit, fuse_dlogit, x2]
 
 # if __name__ == '__main__':
 #     net = tiger_cnn1(num_classes=10)
