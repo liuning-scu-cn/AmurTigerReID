@@ -12,12 +12,10 @@
 import torch.optim as optim
 from shutil import copyfile
 from datetime import datetime
-from core.config import *
-from core.model import *
-from dataload.dataloader import *
 from tqdm import tqdm
-from dataload.mixup import *
-from core.step_lr import *
+from core import *
+from dataload import *
+
 
 init_environment()
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
@@ -37,9 +35,9 @@ def main():
     logging = init_log(save_dir)
     _print = logging.info
 
-    train_paths = ['./datalist/dir/train.txt', ]
-    gallery_paths = ['./datalist/dir/gallery.txt', ]
-    probe_paths = ['./datalist/dir/probe.txt', ]
+    train_paths = ['./datalist/train.txt', ]
+    gallery_paths = ['./datalist/gallery.txt', ]
+    probe_paths = ['./datalist/probe.txt', ]
 
     train_iter, gallery_iter, probe_iter = load_direction_gallery_probe(
         root='./database',
@@ -55,7 +53,7 @@ def main():
 
     feature_size = 1024
 
-    net = tiger_cnn5(classes=107)
+    net = tiger_cnn1(classes=107)
     ignore_params = list(map(id, net.cls.parameters()))
     ignore_params += list(map(id, net.cls_direction.parameters()))
     ignore_params += list(map(id, net.fc7.parameters()))
@@ -170,7 +168,6 @@ def main():
                             flip_features = net.features(flip_inputs)[0]
 
                         ff += torch.cat((features, flip_features), dim=1)
-                        # ff += features
 
                     fnorm = torch.norm(ff, p=2, dim=1, keepdim=True)
                     ff = ff.div(fnorm.expand_as(ff))
@@ -201,7 +198,7 @@ def main():
                             flip_features = net.features(flip_inputs)[0]
 
                         ff += torch.cat((features, flip_features), dim=1)
-                        # ff += features
+
                     fnorm = torch.norm(ff, p=2, dim=1, keepdim=True)
                     ff = ff.div(fnorm.expand_as(ff))
 
@@ -231,7 +228,7 @@ def main():
             torch.save(
                 {'epoch': epoch,
                  'net_state_dict': net_state_dict},
-                os.path.join(save_dir, 'iter%s_model.ckpt' % str(i + 1).zfill(2))
+                os.path.join(save_dir, 'model.ckpt')
             )
     _print('-------max_test_acc Rank@1 {max_test_acc:.3f}-------'.format(
         max_test_acc=max_test_acc
