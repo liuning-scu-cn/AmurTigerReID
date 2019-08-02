@@ -115,8 +115,8 @@ def main():
         root='./database',
         gallery_paths=gallery_paths,
         probe_paths=probe_paths,
-        resize_size=(324, 504),
-        input_size=(288, 448),
+        resize_size=RESIZE_SIZE,
+        input_size=INPUT_SIZE,
         batch_size=16,
         num_workers=2
     )
