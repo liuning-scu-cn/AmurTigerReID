@@ -64,7 +64,6 @@ def main():
          {'params': extra_params, 'lr': 0.001}],
         weight_decay=1e-4, momentum=0.9, nesterov=True
     )
-
     exp_lr_scheduler = StepLRScheduler(optimizer=optimizer, decay_t=20, decay_rate=0.1, warmup_lr_init=1e-5, warmup_t=3)
 
     net.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt'))
