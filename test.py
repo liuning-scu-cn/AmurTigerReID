@@ -123,7 +123,7 @@ def main():
 
     feature_size = 1024
     net = tiger_cnn5(classes=107)
-    net.load_state_dict(torch.load('./model/tiger_cnn5/iter07_model.ckpt')['net_state_dict'])
+    net.load_state_dict(torch.load('./model/tiger_cnn/model.ckpt')['net_state_dict'])
     net = net.cuda()
 
     # val

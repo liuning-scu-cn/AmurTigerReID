@@ -9,9 +9,8 @@
 # Description: 
 # -------------------------------------------------------------------------------
 
-from core import *
-from core.utils import *
-from core.seed import *
+from .loss import *
+from .utils import *
 from block.senet import seresnet50
 
 
