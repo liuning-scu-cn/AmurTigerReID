@@ -1,76 +1,30 @@
 # -*- coding: utf-8 -*
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Author: LiuNing
 # Contact: 2742229056@qq.com
 # Software: PyCharm
 # File: test.py
 # Time: 7/30/19 9:32 PM
 # Description: test model
-#-------------------------------------------------------------------------------
-
-from torch.utils.data import Dataset, DataLoader
-from PIL import Image
-from dataload.constant import *
-from torchvision import transforms
-from core import *
-from tqdm import tqdm
+# -------------------------------------------------------------------------------
 
 import json
+from tqdm import tqdm
+from core import *
+from dataload import *
 
 init_environment()
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
 ########################################################################
-# 读取label文件, 返回文件中所有的内容
+# read file
 #
 def get_label(label_path):
     f = open(label_path)
     lines = f.readlines()
     return lines
-
-
-########################################################################
-# labeled dataset
-#
-class dataset(Dataset):
-    def __init__(self, root, label, signal=' ', transform=None):
-        self._root = root
-        self._label = label
-        self._signal = signal
-        self._transform = transform
-        self._list_images(self._root, self._label)
-
-    def _list_images(self, root, image_names):
-        self.synsets = []
-        self.synsets.append(root)
-        self.items = []
-
-        c = 0
-        for line in image_names:
-            cls = line.rstrip('\n').split(self._signal)
-            fn = cls.pop(0)
-
-            if os.path.isfile(os.path.join(root, fn)):
-                self.items.append((os.path.join(root, fn), fn, float(cls[0])))
-            else:
-                print(os.path.join(root, fn))
-            c += 1
-        print('the total image is ', c)
-
-    def __len__(self):
-        return len(self.items)
-
-    def __getitem__(self, index):
-
-        img = Image.open(self.items[index][0])
-        img = img.convert('RGB')
-        image_name = self.items[index][1]
-        label = self.items[index][2]
-        if self._transform is not None:
-            return self._transform(img), image_name, label
-        return img, image_name, label
 
 
 ########################################################################
@@ -116,7 +70,7 @@ class dataset_unlabeled(Dataset):
 # dataloader
 #
 def load_gallery_probe_data(root, gallery_paths, probe_paths, resize_size=(324, 504), input_size=(288, 448),
-                            signal=' ', batch_size=32, num_workers=0):
+                            batch_size=32, num_workers=0):
     gallery_list = []
     for i in gallery_paths:
         tmp = get_label(i)
@@ -158,10 +112,9 @@ def main():
     probe_paths = ['./datalist/test.txt', ]
 
     gallery_iter, probe_iter = load_gallery_probe_data(
-        root='/media/liuning/UBUNTU 16_0/ValidateTiger/database',
+        root='./database',
         gallery_paths=gallery_paths,
         probe_paths=probe_paths,
-        signal=' ',
         resize_size=(324, 504),
         input_size=(288, 448),
         batch_size=16,
@@ -170,8 +123,7 @@ def main():
 
     feature_size = 1024
     net = tiger_cnn5(classes=107)
-    net.load_state_dict(torch.load(
-        '/media/liuning/BRL_LiuNing/ICCVWorkshop/TigerChallenge/model/SEResNet50_TripletTiger_Finetuning_WarmUp_Direction_288_448_Gallery2_CutOut_RandomErase_FlipTest_0.001lr_10batchsize_20190731_111634/iter07_model.ckpt')['net_state_dict'])
+    net.load_state_dict(torch.load('./model/tiger_cnn5/iter07_model.ckpt')['net_state_dict'])
     net = net.cuda()
 
     # val
@@ -232,6 +184,7 @@ def main():
     g_g_dist = np.dot(gallery_features, np.transpose(gallery_features))
     re_rank = re_ranking(q_g_dist, q_q_dist, g_g_dist)
 
+    # save
     result = open('./result/result.json', 'w')
     my_result = []
     for i in range(len(query_names)):

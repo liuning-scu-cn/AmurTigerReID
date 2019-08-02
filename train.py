@@ -13,12 +13,9 @@
 import torch.optim as optim
 from shutil import copyfile
 from datetime import datetime
-from core.config import *
-from core.model import *
-from dataload.dataloader import *
 from tqdm import tqdm
-from dataload.mixup import *
-from core.step_lr import *
+from dataload import *
+from core import *
 
 init_environment()
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
@@ -231,7 +228,6 @@ def main():
                             flip_features = net.features(flip_inputs)[0]
 
                         ff += torch.cat((features, flip_features), dim=1)
-                        # ff += features
 
                     fnorm = torch.norm(ff, p=2, dim=1, keepdim=True)
                     ff = ff.div(fnorm.expand_as(ff))
@@ -262,7 +258,7 @@ def main():
                             flip_features = net.features(flip_inputs)[0]
 
                         ff += torch.cat((features, flip_features), dim=1)
-                        # ff += features
+
                     fnorm = torch.norm(ff, p=2, dim=1, keepdim=True)
                     ff = ff.div(fnorm.expand_as(ff))
 
@@ -292,7 +288,7 @@ def main():
             torch.save(
                 {'epoch': epoch,
                  'net_state_dict': net_state_dict},
-                os.path.join(save_dir, 'iter%s_model.ckpt' % str(i + 1).zfill(2))
+                os.path.join(save_dir, 'model.ckpt')
             )
     _print('-------max_test_acc Rank@1 {max_test_acc:.3f}%-------'.format(
         max_test_acc=max_test_acc

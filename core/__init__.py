@@ -16,3 +16,4 @@ from .schedule import *
 from .seed import *
 from .step_lr import *
 from .utils import *
+from .config import *
