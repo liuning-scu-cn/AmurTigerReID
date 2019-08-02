@@ -66,7 +66,7 @@ def main():
     )
     exp_lr_scheduler = StepLRScheduler(optimizer=optimizer, decay_t=20, decay_rate=0.1, warmup_lr_init=1e-5, warmup_t=3)
 
-    net.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt'))
+    net.load_state_dict(torch.load('./model/tiger_cnn3/model.ckpt'))
     net.fix_params(is_training=False)
     net = net.cuda()
     if multi_gpus:
