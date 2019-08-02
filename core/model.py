@@ -466,7 +466,9 @@ class tiger_cnn4(nn.Module):
         x1 = torch.mean(torch.mean(x1, dim=2), dim=2)
 
         # fuse
-        fuse_f = torch.cat((x, x1), dim=1)
+        backbone_s = self.fuse(x)
+        erase_s = self.fuse(x1)
+        fuse_f = x * backbone_s + x1 * erase_s
         x2 = self.fuse_fc7(fuse_f)
 
         return [x2, ]
