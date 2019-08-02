@@ -494,7 +494,7 @@ class tiger_cnn4(nn.Module):
         dlogit = self.cls_direction(x)
 
         # erase
-        x1 = self.erase_feature_maps(atten_map.detach(), self.image, threshold=0.6, flag=False)
+        x1 = self.erase_feature_maps(atten_map.detach(), self.image, threshold=0.4, flag=False)
         x1 = self.erase.layer0(x1)
         x1 = self.erase.layer1(x1)
         x1 = self.erase.layer2(x1)

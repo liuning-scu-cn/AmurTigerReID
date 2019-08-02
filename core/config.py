@@ -15,11 +15,9 @@ INPUT_SIZE = (288, 448)  # (h, w)
 RESIZE_SIZE = (324, 504)
 SAVE_FREQ = 10
 TEST_FREQ = 1
-RESUME = ''
 MIXUP = 0.
 
 SAVE_DIR = './model/'
-CUB_DIR = ''
 TOTAL_EPOCH = 30
 
 SEED = 666

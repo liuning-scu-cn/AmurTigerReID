@@ -55,81 +55,21 @@ def main():
 
     feature_size = 1024
 
-    if model_name == 'tiger_cnn1':
-        net = tiger_cnn1(classes=107)
-        ignore_params = list(map(id, net.cls.parameters()))
-        ignore_params += list(map(id, net.cls_direction.parameters()))
-        ignore_params += list(map(id, net.fc7.parameters()))
-        base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
-        extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
-    elif model_name == 'tiger_cnn2':
-        net = tiger_cnn2(classes=107)
-        ignore_params = list(map(id, net.cls.parameters()))
-        ignore_params += list(map(id, net.cls_direction.parameters()))
-        ignore_params += list(map(id, net.cls_tiger.parameters()))
-        ignore_params += list(map(id, net.fc7.parameters()))
-        base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
-        extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
-    elif model_name == 'tiger_cnn3':
-        net = tiger_cnn3(classes=107)
-        ignore_params = list(map(id, net.cls.parameters()))
-        ignore_params += list(map(id, net.cls_direction.parameters()))
-        ignore_params += list(map(id, net.fc7.parameters()))
-        ignore_params += list(map(id, net.erase_cls.parameters()))
-        ignore_params += list(map(id, net.erase_cls_direction.parameters()))
-        ignore_params += list(map(id, net.erase_fc7.parameters()))
-        ignore_params += list(map(id, net.fuse_cls.parameters()))
-        ignore_params += list(map(id, net.fuse_cls_direction.parameters()))
-        ignore_params += list(map(id, net.fuse_fc7.parameters()))
-        base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
-        extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
-    elif model_name == 'tiger_cnn4':
-        net = tiger_cnn4(classes=107)
-        ignore_params = list(map(id, net.cls.parameters()))
-        ignore_params += list(map(id, net.cls_direction.parameters()))
-        ignore_params += list(map(id, net.fc7.parameters()))
-        ignore_params += list(map(id, net.erase_cls.parameters()))
-        ignore_params += list(map(id, net.erase_cls_direction.parameters()))
-        ignore_params += list(map(id, net.erase_fc7.parameters()))
-        ignore_params += list(map(id, net.fuse.parameters()))
-        ignore_params += list(map(id, net.fuse_cls.parameters()))
-        ignore_params += list(map(id, net.fuse_cls_direction.parameters()))
-        ignore_params += list(map(id, net.fuse_fc7.parameters()))
-        base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
-        extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
-    elif model_name == 'tiger_cnn5':
-        net = tiger_cnn5(classes=107)
-        ignore_params = list(map(id, net.cls.parameters()))
-        ignore_params += list(map(id, net.cls_direction.parameters()))
-        ignore_params += list(map(id, net.fc7.parameters()))
-        base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
-        extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
-    elif model_name == 'tiger_cnn6':
-        net = tiger_cnn6(classes=107)
-        ignore_params = list(map(id, net.cls.parameters()))
-        ignore_params += list(map(id, net.cls_direction.parameters()))
-        ignore_params += list(map(id, net.fc7.parameters()))
-        base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
-        extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
-    elif model_name == 'tiger_cnn7':
-        net = tiger_cnn7(classes=107)
-        ignore_params = list(map(id, net.cls.parameters()))
-        ignore_params += list(map(id, net.cls_direction.parameters()))
-        ignore_params += list(map(id, net.fc7.parameters()))
-        base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
-        extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
-
+    net = tiger_cnn5(classes=107)
+    ignore_params = list(map(id, net.cls.parameters()))
+    ignore_params += list(map(id, net.cls_direction.parameters()))
+    ignore_params += list(map(id, net.fc7.parameters()))
+    base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
+    extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
     optimizer = optim.SGD(
         [{'params': base_params, 'lr': 0.001},
-         {'params': extra_params, 'lr': 0.01}],
+         {'params': extra_params, 'lr': 0.001}],
         weight_decay=1e-4, momentum=0.9, nesterov=True
     )
 
     exp_lr_scheduler = StepLRScheduler(optimizer=optimizer, decay_t=20, decay_rate=0.1, warmup_lr_init=1e-4, warmup_t=3)
 
-    if RESUME:
-        ckpt = torch.load(RESUME)
-        net.load_state_dict(ckpt['net_state_dict'])
+    net.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt'))
     net = net.cuda()
     if multi_gpus:
         net = nn.DataParallel(net).cuda()
@@ -293,7 +233,7 @@ def main():
                  'net_state_dict': net_state_dict},
                 os.path.join(save_dir, 'iter%s_model.ckpt' % str(i + 1).zfill(2))
             )
-    _print('-------max_test_acc Rank@1 {max_test_acc:.3f}%-------'.format(
+    _print('-------max_test_acc Rank@1 {max_test_acc:.3f}-------'.format(
         max_test_acc=max_test_acc
     ))
 
