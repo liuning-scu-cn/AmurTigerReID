@@ -20,7 +20,7 @@ from dataload import *
 init_environment()
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 multi_gpus = False
-model_name = 'tiger_cnn1'
+model_name = 'tiger_cnn5'
 
 
 def main():
@@ -53,7 +53,7 @@ def main():
 
     feature_size = 1024
 
-    net = tiger_cnn1(classes=107)
+    net = tiger_cnn5(classes=107)
     ignore_params = list(map(id, net.cls.parameters()))
     ignore_params += list(map(id, net.cls_direction.parameters()))
     ignore_params += list(map(id, net.fc7.parameters()))
@@ -65,7 +65,7 @@ def main():
         weight_decay=1e-4, momentum=0.9, nesterov=True
     )
 
-    exp_lr_scheduler = StepLRScheduler(optimizer=optimizer, decay_t=20, decay_rate=0.1, warmup_lr_init=1e-4, warmup_t=3)
+    exp_lr_scheduler = StepLRScheduler(optimizer=optimizer, decay_t=20, decay_rate=0.1, warmup_lr_init=1e-5, warmup_t=3)
 
     net.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt'))
     net = net.cuda()
@@ -89,17 +89,6 @@ def main():
         train_acc.reset()
         train_acc5.reset()
         erase_train_acc.reset()
-
-        if epoch < 3:
-            if multi_gpus:
-                net.module.fix_params(is_training=False)
-            else:
-                net.fix_params(is_training=False)
-        else:
-            if multi_gpus:
-                net.module.fix_params(is_training=True)
-            else:
-                net.fix_params(is_training=True)
 
         for data in tqdm(train_iter, desc='Train Epoch: {}'.format(epoch + 1)):
             inputs, labels, direction = data

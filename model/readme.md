@@ -3,7 +3,7 @@
 ### Recent Updates
 [2019.8.1]
 
-If you want to get our trained model and log, please download from ... ,and you can save it to ./model.
+If you want to get our model and log, please download from ... ,and you can save it to ./model.
 
 ### Model Test
 

@@ -125,9 +125,6 @@ def main():
 
     exp_lr_scheduler = StepLRScheduler(optimizer=optimizer, decay_t=20, decay_rate=0.1, warmup_lr_init=1e-4, warmup_t=3)
 
-    if RESUME:
-        ckpt = torch.load(RESUME)
-        net.load_state_dict(ckpt['net_state_dict'])
     net = net.cuda()
     if multi_gpus:
         net = nn.DataParallel(net).cuda()

@@ -605,11 +605,13 @@ class tiger_cnn6(nn.Module):
         super(tiger_cnn6, self).__init__()
 
         model1 = tiger_cnn1(classes)
+        model1.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt')['net_state_dict'])
         for p in model1.parameters():
             p.requires_grad = False
         self.model1 = model1
 
         model2 = tiger_cnn3(classes)
+        model2.load_state_dict(torch.load('./model/tiger_cnn3/model.ckpt')['net_state_dict'])
         for p in model2.parameters():
             p.requires_grad = False
         self.model2 = model2
@@ -665,12 +667,13 @@ class tiger_cnn7(nn.Module):
         super(tiger_cnn7, self).__init__()
 
         model1 = tiger_cnn1(classes)
+        model1.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt')['net_state_dict'])
         for p in model1.parameters():
             p.requires_grad = False
-
         self.model1 = model1
 
         model2 = tiger_cnn2(classes)
+        model2.load_state_dict(torch.load('./model/tiger_cnn2/model.ckpt')['net_state_dict'])
         for p in model2.parameters():
             p.requires_grad = False
         self.model2 = model2
