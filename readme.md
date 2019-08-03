@@ -1,7 +1,10 @@
 ## ICCV 2019 Workshop & Challenge on Computer Vision for Wildlife Conservation (CVWC)
 
+
 ### Recent Updates
 [2019.8.2]
+
+
 ### Dependencies
 - python==3.6
 - torch==0.4.1
@@ -10,6 +13,7 @@
 
 ### Solution  
 https://github.com/liuning-scu-cn/AmurTigerReID
+
 
 ### prepare data  
 - Train data:
@@ -37,7 +41,14 @@ test_set &ensp;&ensp;&ensp;=> &ensp;&ensp;./dataload/dataloader.py
 ### Train  
 in train.py  
 
+
 ### Test  
 in test.py  
+
+
+### Thanks
+- [CVWC 2019 Organizing Team]()
+- [EvalAI Team]()
+- [SiChuan University BRL](http://www.scubrl.org/index)
 
 
