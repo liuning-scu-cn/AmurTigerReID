@@ -20,7 +20,7 @@ If you want to get our all models and logs, please download from ... ,and you ca
 | tiger_cnn8| 89.5        | 96.8%         | 98.5%         | 58.8       | 87.4%        | 92.5%        |
 
 ### Test
-If you have our model and test pictures, you can test the model to get result.json.
+If you have our model and official test set, you can test the model to get result.json.
 
 You only change the test.py as follow:
 
