@@ -284,7 +284,7 @@ def main():
                  'net_state_dict': net_state_dict},
                 os.path.join(save_dir, 'model.ckpt')
             )
-    _print('-------max_test_acc Rank@1 {max_test_acc:.3f}%-------'.format(
+    _print('-------max_test_acc Rank@1 {max_test_acc:.3f}-------'.format(
         max_test_acc=max_test_acc
     ))
 
