@@ -10,14 +10,14 @@ If you want to get our all models and logs, please download from ... ,and you ca
 | Model-Name| mAP(single) | top@1(single) | top@5(single) | mAP(cross) | top@1(cross) | top@5(cross) |
 | :-------: | :---------: | :-----------: | :-----------: | :--------: | :----------: | :----------: |
 | official-baseline  | 71.4        | 86.6%         | 95.4%         | 48.1       | 79.4%        | 93.7%        |
-| tiger_cnn1| 83.9        | 92.0%         | 94.5%         | 60.9       | 94.8%        | 96.5%        |
-| tiger_cnn2| 89.0        | 98.2%         | 98.5%         | 59.0       | 86.2%        | 95.4%        |
-| tiger_cnn3| 88.7        | 97.4%         | 98.8%         | 57.4       | 86.8%        | 92.0%        |
-| tiger_cnn4|  -          |  -            |  -            |  -         |  -           |  -           |
-| tiger_cnn5| 90.2        | 97.1%         | 98.2%         | 60.7       | 89.7%        | 96.5%        |
-| tiger_cnn6| 87.8        | 95.4%         | 98.2%         | 58.4       | 89.7%        | 94.8%        |
-| tiger_cnn7| 87.7        | 95.7%         | 98.0%         | 58.0       | 88.5%        | 92.0%        |
-| tiger_cnn8| 89.5        | 96.8%         | 98.5%         | 58.8       | 87.4%        | 92.5%        |
+| tiger_cnn1         | 83.9        | 92.0%         | 94.5%         | **60.9**   | **94.8%**    | **96.5%**    |
+| tiger_cnn2         | 89.0        | **98.2%**     | 98.5%         | 59.0       | 86.2%        | 95.4%        |
+| tiger_cnn3         | 88.7        | 97.4%         | **98.8%**     | 57.4       | 86.8%        | 92.0%        |
+| tiger_cnn4         |  -          |  -            |  -            |  -         |  -           |  -           |
+| tiger_cnn5         | **90.2**    | 97.1%         | 98.2%         | 60.7       | 89.7%        | **96.5%**    |
+| tiger_cnn6         | 87.8        | 95.4%         | 98.2%         | 58.4       | 89.7%        | 94.8%        |
+| tiger_cnn7         | 87.7        | 95.7%         | 98.0%         | 58.0       | 88.5%        | 92.0%        |
+| tiger_cnn8         | 89.5        | 96.8%         | 98.5%         | 58.8       | 87.4%        | 92.5%        |
 
 ### Test
 If you have our model and official test-set, you need to set official test-set pictures to '/AmurTigerReID/database/test/'
