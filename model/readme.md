@@ -20,7 +20,7 @@ If you want to get our all models and logs, please download from ... ,and you ca
 | tiger_cnn8| 89.5        | 96.8%         | 98.5%         | 58.8       | 87.4%        | 92.5%        |
 
 ### Test
-If you have our model and official test set, you can test the model to get result.json.
+If you have our model and official test-set, you need to set official test-set pictures to '/AmurTigerReID/database/test/'
 
 You only change the test.py as follow:
 
@@ -29,4 +29,4 @@ net = tiger_cnn1(classes=107)   # please change the target model name
 net.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt')['net_state_dict'])  # please change the target model path
 ```
 
-And then, you can run the test.py.
+And then, you can run the test.py to get result.json.
