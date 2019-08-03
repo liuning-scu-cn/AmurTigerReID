@@ -561,7 +561,7 @@ class tiger_cnn5(nn.Module):
 
         loss = self.loss(logits[0], labels) + self.loss(logits[1], direction)
         triplet_loss = global_loss(TripletLoss(margin=0.3), logits[2], labels)[0]
-        return loss + triplet_loss
+        return triplet_loss + loss
 
     def features(self, x):
         # backbone
@@ -589,9 +589,7 @@ class tiger_cnn5(nn.Module):
         x = self.fc7(x)
         x = l2_norm(x)
 
-        # TigerID
         glogit = self.cls(x)
-        # Left/Right
         dlogit = self.cls_direction(x)
 
         return [glogit, dlogit, x]
@@ -627,6 +625,9 @@ class tiger_cnn6(nn.Module):
         self.cls = nn.Linear(512, classes)
         self.cls_direction = nn.Linear(512, 2)
         self.loss = LabelSmoothingCrossEntropy(smoothing=0.1)
+
+    def fix_params(self, is_training=True):
+        pass
 
     def get_loss(self, logits, labels, direction):
         loss = self.loss(logits[0], labels) + self.loss(logits[1], direction)
@@ -689,6 +690,9 @@ class tiger_cnn7(nn.Module):
         self.cls = nn.Linear(512, classes)
         self.cls_direction = nn.Linear(512, 2)
         self.loss = LabelSmoothingCrossEntropy(smoothing=0.1)
+
+    def fix_params(self, is_training=True):
+        pass
 
     def get_loss(self, logits, labels, direction):
         loss = self.loss(logits[0], labels) + self.loss(logits[1], direction)

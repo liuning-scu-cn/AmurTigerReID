@@ -122,8 +122,8 @@ def main():
     )
 
     feature_size = 1024
-    net = tiger_cnn8(classes=107)
-    net.load_state_dict(torch.load('/media/liuning/UBUNTU 16_0/ValidateTiger/model/SEResNet50_0.3TripletTigerCNN3_Finetuning_WarmUp_Direction_288_448_Gallery2_CutOut_RandomErase_FlipTest_0.001lr_8batchsize_20190802_200847/iter07_model.ckpt')['net_state_dict'])
+    net = tiger_cnn1(classes=107)
+    net.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt')['net_state_dict'])
     net = net.cuda()
 
     # val

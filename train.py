@@ -20,7 +20,7 @@ from core import *
 init_environment()
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 multi_gpus = False
-model_name = 'tiger_cnn1'
+model_name = 'tiger_cnn7'
 
 
 def main():
@@ -95,13 +95,6 @@ def main():
         ignore_params += list(map(id, net.fuse_fc7.parameters()))
         base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
         extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
-    elif model_name == 'tiger_cnn5':
-        net = tiger_cnn5(classes=107)
-        ignore_params = list(map(id, net.cls.parameters()))
-        ignore_params += list(map(id, net.cls_direction.parameters()))
-        ignore_params += list(map(id, net.fc7.parameters()))
-        base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
-        extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
     elif model_name == 'tiger_cnn6':
         net = tiger_cnn6(classes=107)
         ignore_params = list(map(id, net.cls.parameters()))
@@ -116,6 +109,9 @@ def main():
         ignore_params += list(map(id, net.fc7.parameters()))
         base_params = filter(lambda p: id(p) not in ignore_params, net.parameters())
         extra_params = filter(lambda p: id(p) in ignore_params, net.parameters())
+    else:
+        _print('error!!!!!! please input correct model name.')
+        return
 
     optimizer = optim.SGD(
         [{'params': base_params, 'lr': 0.001},

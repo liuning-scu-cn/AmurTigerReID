@@ -29,7 +29,7 @@ def main():
     if os.path.exists(save_dir):
         raise NameError('model dir exists!')
     os.makedirs(save_dir)
-    copyfile('./finetune_triplet.py.py', save_dir + '/train.py')
+    copyfile('./finetune_tiger_cnn5_triplet.py', save_dir + '/train.py')
     copyfile('./core/model.py', save_dir + '/model.py')
     copyfile('./core/config.py', save_dir + '/config.py')
     logging = init_log(save_dir)
@@ -39,7 +39,7 @@ def main():
     gallery_paths = ['./datalist/gallery.txt', ]
     probe_paths = ['./datalist/probe.txt', ]
 
-    train_iter, gallery_iter, probe_iter = load_direction_gallery_probe(
+    train_iter, gallery_iter, probe_iter = load_triplet_direction_gallery_probe(
         root='./database',
         train_paths=train_paths,
         gallery_paths=gallery_paths,
@@ -47,8 +47,9 @@ def main():
         signal=' ',
         resize_size=RESIZE_SIZE,
         input_size=INPUT_SIZE,
-        batch_size=BATCH_SIZE,
-        num_workers=2
+        batch_size=8,
+        num_workers=2,
+        collate_fn=train_collate
     )
 
     feature_size = 1024
@@ -67,7 +68,7 @@ def main():
 
     exp_lr_scheduler = StepLRScheduler(optimizer=optimizer, decay_t=20, decay_rate=0.1, warmup_lr_init=1e-5, warmup_t=3)
 
-    net.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt'))
+    net.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt')['net_state_dict'])
     # net.fix_params(is_training=False)
     net = net.cuda()
     if multi_gpus:
@@ -108,6 +109,7 @@ def main():
             optimizer.zero_grad()
 
             logits = net(inputs, labels)
+
             if multi_gpus:
                 loss = net.module.get_loss(logits, labels, direction)
             else:
@@ -229,6 +231,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-
 
 

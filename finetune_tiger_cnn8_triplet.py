@@ -20,7 +20,7 @@ from dataload import *
 init_environment()
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 multi_gpus = False
-model_name = 'tiger_cnn5'
+model_name = 'tiger_cnn8'
 
 
 def main():
@@ -29,7 +29,7 @@ def main():
     if os.path.exists(save_dir):
         raise NameError('model dir exists!')
     os.makedirs(save_dir)
-    copyfile('./finetune_triplet.py.py', save_dir + '/train.py')
+    copyfile('./finetune_tiger_cnn8_triplet.py', save_dir + '/train.py')
     copyfile('./core/model.py', save_dir + '/model.py')
     copyfile('./core/config.py', save_dir + '/config.py')
     logging = init_log(save_dir)
@@ -39,7 +39,7 @@ def main():
     gallery_paths = ['./datalist/gallery.txt', ]
     probe_paths = ['./datalist/probe.txt', ]
 
-    train_iter, gallery_iter, probe_iter = load_direction_gallery_probe(
+    train_iter, gallery_iter, probe_iter = load_triplet_direction_gallery_probe(
         root='./database',
         train_paths=train_paths,
         gallery_paths=gallery_paths,
@@ -47,8 +47,9 @@ def main():
         signal=' ',
         resize_size=RESIZE_SIZE,
         input_size=INPUT_SIZE,
-        batch_size=BATCH_SIZE,
-        num_workers=2
+        batch_size=8,
+        num_workers=2,
+        collate_fn=train_collate
     )
 
     feature_size = 1024
@@ -66,7 +67,7 @@ def main():
     )
     exp_lr_scheduler = StepLRScheduler(optimizer=optimizer, decay_t=20, decay_rate=0.1, warmup_lr_init=1e-5, warmup_t=3)
 
-    net.load_state_dict(torch.load('./model/tiger_cnn3/model.ckpt'))
+    net.load_state_dict(torch.load('./model/tiger_cnn3/model.ckpt')['net_state_dict'])
     net.fix_params(is_training=False)
     net = net.cuda()
     if multi_gpus:

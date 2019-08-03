@@ -172,12 +172,14 @@ def hard_example_mining(dist_mat, labels, return_inds=False):
 
     # `dist_ap` means distance(anchor, positive)
     # both `dist_ap` and `relative_p_inds` with shape [N, 1]
-    dist_ap, relative_p_inds = torch.max(
-        dist_mat[is_pos].contiguous().view(N, -1), 1, keepdim=True)
+    dist_ap, relative_p_inds = torch.max((dist_mat * is_pos.float()).contiguous().view(N, -1), 1, keepdim=True)
+
     # `dist_an` means distance(anchor, negative)
     # both `dist_an` and `relative_n_inds` with shape [N, 1]
-    dist_an, relative_n_inds = torch.min(
-        dist_mat[is_neg].contiguous().view(N, -1), 1, keepdim=True)
+    temp = dist_mat * is_neg.float()
+    temp[temp == 0] = 10e5
+    dist_an, relative_n_inds = torch.min((temp).contiguous().view(N, -1), 1, keepdim=True)
+
     # shape [N]
     dist_ap = dist_ap.squeeze(1)
     dist_an = dist_an.squeeze(1)
@@ -189,9 +191,9 @@ def hard_example_mining(dist_mat, labels, return_inds=False):
                .unsqueeze(0).expand(N, N))
         # shape [N, 1]
         p_inds = torch.gather(
-            ind[is_pos].contiguous().view(N, -1), 1, relative_p_inds.data)
+            (ind * is_pos.long()).contiguous().view(N, -1), 1, relative_p_inds.data)
         n_inds = torch.gather(
-            ind[is_neg].contiguous().view(N, -1), 1, relative_n_inds.data)
+            (ind * is_pos.long()).contiguous().view(N, -1), 1, relative_n_inds.data)
         # shape [N]
         p_inds = p_inds.squeeze(1)
         n_inds = n_inds.squeeze(1)
