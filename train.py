@@ -134,8 +134,6 @@ def main():
     max_test_acc = 0.0
     for epoch in range(TOTAL_EPOCH):
 
-
-
         # train
         net.train()
         flag = False
@@ -270,6 +268,7 @@ def main():
             if max_test_acc <= CMC[0]:
                 max_test_acc = CMC[0]
                 flag = True
+
         # save
         if flag:
             msg = 'Saving checkpoint: {}'.format(epoch + 1)
