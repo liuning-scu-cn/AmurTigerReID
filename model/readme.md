@@ -3,7 +3,8 @@
 ### Recent Updates
 [2019.8.1]
 
-If you want to get our all models and logs, please download from ... ,and you can save it to ./model.
+If you want to get our all models and logs, please download from [https://pan.baidu.com/s/11RslAFW9g7kS8I4IVZC_Iw](https://pan.baidu.com/s/11RslAFW9g7kS8I4IVZC_Iw), and passward code is ```7iic```.
+Then you can save it to ./model.
 
 ### Model Test
 
