@@ -9,7 +9,7 @@ If you want to get our all models and logs, please download from ... ,and you ca
 
 | Model-Name| mAP(single) | top@1(single) | top@5(single) | mAP(cross) | top@1(cross) | top@5(cross) |
 | :-------: | :---------: | :-----------: | :-----------: | :--------: | :----------: | :----------: |
-| baseline  | 71.4        | 86.6%         | 95.4%         | 48.1       | 79.4%        | 93.7%        |
+| official-baseline  | 71.4        | 86.6%         | 95.4%         | 48.1       | 79.4%        | 93.7%        |
 | tiger_cnn1| 83.9        | 92.0%         | 94.5%         | 60.9       | 94.8%        | 96.5%        |
 | tiger_cnn2| 89.0        | 98.2%         | 98.5%         | 59.0       | 86.2%        | 95.4%        |
 | tiger_cnn3| 88.7        | 97.4%         | 98.8%         | 57.4       | 86.8%        | 92.0%        |
