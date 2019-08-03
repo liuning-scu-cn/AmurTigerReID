@@ -39,7 +39,7 @@ test_set &ensp;&ensp;&ensp;=> &ensp;&ensp;./dataload/dataloader.py
 
 
 ### Train  
-in train.py, finetune_tiger_cnn5.py, finetune_tiger_cnn8.py. 
+in train.py, finetune_tiger_cnn5.py, and finetune_tiger_cnn8.py. 
 
 
 ### Test  
