@@ -51,4 +51,3 @@ in test.py
 - [EvalAI Team]()
 - [SiChuan University BRL](http://www.scubrl.org/index)
 
-
