@@ -35,9 +35,9 @@ def main():
     logging = init_log(save_dir)
     _print = logging.info
 
-    train_paths = ['./datalist/dir/train.txt', ]
-    gallery_paths = ['./datalist/dir/gallery.txt', ]
-    probe_paths = ['./datalist/dir/probe.txt', ]
+    train_paths = ['./datalist/train.txt', ]
+    gallery_paths = ['./datalist/gallery.txt', ]
+    probe_paths = ['./datalist/probe.txt', ]
 
     train_iter, gallery_iter, probe_iter = load_direction_gallery_probe(
         root='./database',
