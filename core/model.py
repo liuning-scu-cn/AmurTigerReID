@@ -170,7 +170,7 @@ class tiger_cnn2(nn.Module):
 
 ########################################################################
 # Solution Three: tiger_cnn3
-# Multitask: Tiger ID, Left/right
+# Multitask: Tiger ID, Left/Right
 # Backbone: SE-ResNet50
 # DoubleBranch: backbone, erase
 # Concat-Fuse
@@ -344,7 +344,7 @@ class tiger_cnn3(nn.Module):
 
 ########################################################################
 # Solution Four: tiger_cnn4
-# Multitask: Tiger ID, Left/right
+# Multitask: Tiger ID, Left/Right
 # Backbone: SE-ResNet50
 # DoubleBranch: backbone, erase
 # SE-Fuse
@@ -527,9 +527,9 @@ class tiger_cnn4(nn.Module):
 
 ########################################################################
 # Solution Five: tiger_cnn5
-# Multitask: Tiger ID, Left/right
+# Multitask: Tiger ID, Left/Right
 # Backbone: SE-ResNet50
-# Loss Function: LabelSmoothingCrossEntropy+TripletLoss
+# Loss Function: LabelSmoothingCrossEntropy + TripletLoss + Finetune(tiger_cnn1)
 #
 class tiger_cnn5(nn.Module):
     def __init__(self, classes=107, stride=1):
@@ -599,9 +599,9 @@ class tiger_cnn5(nn.Module):
 
 ########################################################################
 # Solution Six: tiger_cnn6
-# Multitask: Tiger ID, Left/right
+# Multitask: Tiger ID, Left/Right
 # Model Fusion: tiger_cnn1, tiger_cnn3
-# Loss Function: LabelSmoothingCrossEntropy+TripletLoss
+# Loss Function: LabelSmoothingCrossEntropy
 #
 class tiger_cnn6(nn.Module):
     def __init__(self, classes=107):
@@ -664,9 +664,9 @@ class tiger_cnn6(nn.Module):
 
 ########################################################################
 # Solution Seven: tiger_cnn7
-# Multitask: Tiger ID, Left/right
+# Multitask: Tiger ID, Left/Right
 # Model Fusion: tiger_cnn1, tiger_cnn2
-# Loss Function: LabelSmoothingCrossEntropy+TripletLoss
+# Loss Function: LabelSmoothingCrossEntropy
 #
 class tiger_cnn7(nn.Module):
     def __init__(self, classes=107):
@@ -729,7 +729,7 @@ class tiger_cnn7(nn.Module):
 
 ########################################################################
 # Solution Three: tiger_cnn8
-# Multitask: Tiger ID, Left/right
+# Multitask: Tiger ID, Left/Right
 # Backbone: SE-ResNet50
 # DoubleBranch: backbone, erase
 # Concat-Fuse
