@@ -47,7 +47,7 @@ in test.py
 
 
 ### Thanks
-- [CVWC 2019 Organizing Team]()
-- [EvalAI Team]()
+- [CVWC 2019 Organizing Team](https://cvwc2019.github.io/)
+- [EvalAI Team](https://evalai.cloudcv.org)
 - [SiChuan University BRL](http://www.scubrl.org/index)
 
