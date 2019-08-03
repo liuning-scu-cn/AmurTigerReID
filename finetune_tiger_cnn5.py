@@ -208,7 +208,7 @@ def main():
                 max_test_acc = CMC[0]
                 flag = True
         # save
-        if flag:
+        if (epoch + 1) % SAVE_FREQ == 0:
             msg = 'Saving checkpoint: {}'.format(epoch + 1)
             _print(msg)
             if multi_gpus:
