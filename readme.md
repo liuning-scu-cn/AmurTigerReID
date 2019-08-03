@@ -6,9 +6,9 @@
 
 
 ### Dependencies
-- python==3.6
-- torch==0.4.1
-- torchvision==0.2.1
+- python == 3.6
+- torch == 0.4.1
+- torchvision == 0.2.1
 
 
 ### Solution  
