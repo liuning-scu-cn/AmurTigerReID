@@ -6,7 +6,7 @@
 # Software: PyCharm
 # File: finetune_triplet.py
 # Time: 8/1/19 10:03 PM
-# Description: 
+# Description: finetune the tiger_cnn3 with triplet
 #-------------------------------------------------------------------------------
 
 import torch.optim as optim
