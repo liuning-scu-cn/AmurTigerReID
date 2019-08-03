@@ -3,7 +3,7 @@
 ### Recent Updates
 [2019.8.1]
 
-If you want to get our model and log, please download from ... ,and you can save it to ./model.
+If you want to get our all models and logs, please download from ... ,and you can save it to ./model.
 
 ### Model Test
 
@@ -18,3 +18,15 @@ If you want to get our model and log, please download from ... ,and you can save
 | tiger_cnn6| 87.8        | 95.4%         | 98.2%         | 58.4       | 89.7%        | 94.8%        |
 | tiger_cnn7| 87.7        | 95.7%         | 98.0%         | 58.0       | 88.5%        | 92.0%        |
 | tiger_cnn8| 89.5        | 96.8%         | 98.5%         | 58.8       | 87.4%        | 92.5%        |
+
+### Test
+If you have our model and test pictures, you can test the model to get result.json.
+
+You only change the test.py as follow:
+
+```
+net = tiger_cnn1(classes=107)   # please change the target model name
+net.load_state_dict(torch.load('./model/tiger_cnn1/model.ckpt')['net_state_dict'])  # please change the target model path
+```
+
+And then, you can run the test.py.
