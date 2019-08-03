@@ -589,7 +589,9 @@ class tiger_cnn5(nn.Module):
         x = self.fc7(x)
         x = l2_norm(x)
 
+        # TigerID
         glogit = self.cls(x)
+        # Left/Right
         dlogit = self.cls_direction(x)
 
         return [glogit, dlogit, x]
