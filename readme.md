@@ -15,7 +15,7 @@
 https://github.com/liuning-scu-cn/AmurTigerReID
 
 
-### prepare data  
+### Prepare Data  
 - Train data:
 
 Please download from https://lilablobssc.blob.core.windows.net/cvwc2019/train/atrw_reid_train.tar.gz
@@ -33,13 +33,13 @@ Please download from https://lilablobssc.blob.core.windows.net/cvwc2019/test/atr
 Please download from ...
 
 
-### competition dataset  
+### Competition Dataset  
 train_set &ensp;&ensp;=> &ensp;&ensp;./dataload/dataloader.py  
 test_set &ensp;&ensp;&ensp;=> &ensp;&ensp;./dataload/dataloader.py
 
 
 ### Train  
-in train.py  
+in train.py, finetune_tiger_cnn5.py, finetune_tiger_cnn8.py. 
 
 
 ### Test  
