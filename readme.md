@@ -51,4 +51,4 @@ in test.py
 - [EvalAI Team](https://evalai.cloudcv.org)
 - [SiChuan University BRL](http://www.scubrl.org/index)
 
-###### Contact If you have any problem, please contact [BRL](http://www.scubrl.org/index) or email to 2742229056@qq.com.
+###### If you have any problem, please contact [BRL](http://www.scubrl.org/index) or email to 2742229056@qq.com.
