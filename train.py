@@ -20,7 +20,7 @@ from core import *
 init_environment()
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 multi_gpus = False
-model_name = 'tiger_cnn7'
+model_name = 'tiger_cnn1'
 
 
 def main():
