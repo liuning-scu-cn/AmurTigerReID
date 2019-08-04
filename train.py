@@ -123,7 +123,7 @@ def main():
 
     net = net.cuda()
     if multi_gpus:
-        net = nn.DataParallel(net).cuda()
+        net = nn.DataParallel(net)
 
     losses = AverageMeter()
     train_acc = AverageMeter()
