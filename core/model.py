@@ -782,6 +782,8 @@ class tiger_cnn8(nn.Module):
 
     def normalize_atten_maps(self, atten_maps):
         atten_shape = atten_maps.size()
+
+        # --------------------------
         batch_mins, _ = torch.min(atten_maps.view(atten_shape[0:-2] + (-1,)), dim=-1, keepdim=True)
         batch_maxs, _ = torch.max(atten_maps.view(atten_shape[0:-2] + (-1,)), dim=-1, keepdim=True)
         atten_normed = (atten_maps.view(atten_shape[0:-2] + (-1,)) - batch_mins) / (batch_maxs - batch_mins)
@@ -813,28 +815,15 @@ class tiger_cnn8(nn.Module):
         return erased_feature_maps
 
     def fix_params(self, is_training=True):
-        for p in self.backbone.parameters():
-            p.requires_grad = is_training
-        for p in self.erase.parameters():
-            p.requires_grad = is_training
-        for p in self.fc7.parameters():
-            p.requires_grad = is_training
-        for p in self.cls.parameters():
-            p.requires_grad = is_training
-        for p in self.cls_direction.parameters():
-            p.requires_grad = is_training
-        for p in self.erase_fc7.parameters():
-            p.requires_grad = is_training
-        for p in self.erase_cls.parameters():
-            p.requires_grad = is_training
-        for p in self.erase_cls_direction.parameters():
-            p.requires_grad = is_training
+        pass
 
     def get_loss(self, logits, labels, direction):
 
         loss1 = self.loss(logits[0], labels) + self.loss(logits[1], direction)
-        triplet_loss = global_loss(TripletLoss(margin=0.3), logits[2], labels)[0]
-        loss = loss1 + triplet_loss
+        loss2 = self.loss(logits[2], labels) + self.loss(logits[3], direction)
+        loss3 = self.loss(logits[4], labels) + self.loss(logits[5], direction)
+        triplet_loss = global_loss(TripletLoss(margin=0.4), logits[6], labels)[0]
+        loss = loss1 + loss2 + loss3 + triplet_loss
         return loss
 
     def features(self, x):
@@ -853,11 +842,11 @@ class tiger_cnn8(nn.Module):
         x1 = self.erase.layer2(x1)
         x1 = self.erase.layer3(x1)
         x1 = self.erase.layer4(x1)
-
         x1 = torch.mean(torch.mean(x1, dim=2), dim=2)
 
         # fuse
         fuse_f = torch.cat((x, x1), dim=1)
+
         x2 = self.fuse_fc7(fuse_f)
         x2 = l2_norm(x2)
 
@@ -865,15 +854,25 @@ class tiger_cnn8(nn.Module):
 
     def forward(self, x, label=None, direction=None):
         # backbone
-        x1 = x.detach()
+        self.image = x.detach()
         x = self.backbone.layer0(x)
         x = self.backbone.layer1(x)
         x = self.backbone.layer2(x)
         x = self.backbone.layer3(x)
         x = self.backbone.layer4(x)
+
+        atten_map = torch.sum(x.detach(), dim=1)
+        atten_map = self.my_upsample(self.normalize_atten_maps(atten_map).unsqueeze(dim=1))
+
         x = torch.mean(torch.mean(x, dim=2), dim=2)
+        backbone_f = x.detach()
+        x = self.fc7(x)
+
+        glogit = self.cls(x)
+        dlogit = self.cls_direction(x)
 
         # erase
+        x1 = self.erase_feature_maps(atten_map.detach(), self.image, threshold=0.6, flag=False)
         x1 = self.erase.layer0(x1)
         x1 = self.erase.layer1(x1)
         x1 = self.erase.layer2(x1)
@@ -881,18 +880,21 @@ class tiger_cnn8(nn.Module):
         x1 = self.erase.layer4(x1)
 
         x1 = torch.mean(torch.mean(x1, dim=2), dim=2)
+        erase_f = x1.detach()
+        x1 = self.erase_fc7(x1)
+
+        erase_glogit = self.erase_cls(x1)
+        erase_dlogit = self.erase_cls_direction(x1)
 
         # fuse
-        fuse_f = torch.cat((x, x1), dim=1)
+        fuse_f = torch.cat((backbone_f, erase_f), dim=1)
         x2 = self.fuse_fc7(fuse_f)
         x2 = l2_norm(x2)
 
-        # TigerID
         fuse_glogit = self.fuse_cls(x2)
-        # Left/Right
         fuse_dlogit = self.fuse_cls_direction(x2)
 
-        return [fuse_glogit, fuse_dlogit, x2]
+        return [glogit, dlogit, erase_glogit, erase_dlogit, fuse_glogit, fuse_dlogit, x2]
 
 # if __name__ == '__main__':
 #     net = tiger_cnn1(num_classes=10)

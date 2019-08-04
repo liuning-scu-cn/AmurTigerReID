@@ -18,8 +18,8 @@ from dataload import *
 
 
 init_environment()
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-multi_gpus = False
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+multi_gpus = True
 model_name = 'tiger_cnn8'
 
 
@@ -29,7 +29,7 @@ def main():
     if os.path.exists(save_dir):
         raise NameError('model dir exists!')
     os.makedirs(save_dir)
-    copyfile('./finetune_tiger_cnn8_triplet.py', save_dir + '/train.py')
+    copyfile('./finetune_tiger_cnn8.py', save_dir + '/train.py')
     copyfile('./core/model.py', save_dir + '/model.py')
     copyfile('./core/config.py', save_dir + '/config.py')
     logging = init_log(save_dir)
@@ -71,7 +71,7 @@ def main():
     net.fix_params(is_training=False)
     net = net.cuda()
     if multi_gpus:
-        net = nn.DataParallel(net).cuda()
+        net = nn.DataParallel(net)
 
     losses = AverageMeter()
     train_acc = AverageMeter()
