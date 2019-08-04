@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Author: LiuNing
 # Contact: 2742229056@qq.com
 # Software: PyCharm
 # File: finetune_triplet.py
 # Time: 8/1/19 10:03 PM
 # Description: finetune the tiger_cnn3 with triplet
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 import torch.optim as optim
 from shutil import copyfile
@@ -16,10 +16,9 @@ from tqdm import tqdm
 from core import *
 from dataload import *
 
-
 init_environment()
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
-multi_gpus = True
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+multi_gpus = False
 model_name = 'tiger_cnn8'
 
 
@@ -47,7 +46,7 @@ def main():
         signal=' ',
         resize_size=RESIZE_SIZE,
         input_size=INPUT_SIZE,
-        batch_size=8,
+        batch_size=4,
         num_workers=2,
         collate_fn=train_collate
     )
@@ -229,6 +228,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
