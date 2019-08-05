@@ -45,6 +45,9 @@ in train.py, finetune_tiger_cnn5.py, and finetune_tiger_cnn8.py.
 ### Test  
 in test.py  
 
+### Model
+If you want to get our all models and logs, please download from [https://pan.baidu.com/s/11RslAFW9g7kS8I4IVZC_Iw](https://pan.baidu.com/s/11RslAFW9g7kS8I4IVZC_Iw), and passward code is ```7iic```.
+Then you can save it to ./model.
 
 ### Thanks
 - [CVWC 2019 Organizing Team](https://cvwc2019.github.io/)
