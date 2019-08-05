@@ -44,6 +44,9 @@ test_set &ensp;&ensp;&ensp;=> &ensp;&ensp;./dataload/dataloader.py
 ### Train  
 in train.py, finetune_tiger_cnn5.py, and finetune_tiger_cnn8.py. 
 
+If you want to run finetune_tiger_cnn5.py, you firstly need to train tiger_cnn1 model.
+
+If you want to run finetune_tiger_cnn8.py, you firstly need to train tiger_cnn3 model.
 
 ### Test  
 in test.py  
