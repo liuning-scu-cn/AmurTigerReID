@@ -4,6 +4,9 @@
 ### Recent Updates
 [2019.8.4]
 
+### Note
+We participate in the Plain Re-ID Track. Our solution uses SE-ResNet50 model as backbone which was pre-trained by ILSVRC. In addition, we design two complementary network branches to learn multiple discriminative features. We use multi-task learning strategy to supervise the model training. Finally, we fine-tune the model with triplet loss. The Re-ID results are obtained based on the fusion of the learned multiple features.
+
 
 ### Dependencies
 - python == 3.6
