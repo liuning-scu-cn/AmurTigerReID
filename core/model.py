@@ -868,7 +868,9 @@ class tiger_cnn8(nn.Module):
         backbone_f = x.detach()
         x = self.fc7(x)
 
+        # TigerID
         glogit = self.cls(x)
+        # Left/Right
         dlogit = self.cls_direction(x)
 
         # erase
@@ -883,7 +885,9 @@ class tiger_cnn8(nn.Module):
         erase_f = x1.detach()
         x1 = self.erase_fc7(x1)
 
+        # TigerID
         erase_glogit = self.erase_cls(x1)
+        # Left/Right
         erase_dlogit = self.erase_cls_direction(x1)
 
         # fuse
@@ -891,7 +895,9 @@ class tiger_cnn8(nn.Module):
         x2 = self.fuse_fc7(fuse_f)
         x2 = l2_norm(x2)
 
+        # TigerID
         fuse_glogit = self.fuse_cls(x2)
+        # Left/Right
         fuse_dlogit = self.fuse_cls_direction(x2)
 
         return [glogit, dlogit, erase_glogit, erase_dlogit, fuse_glogit, fuse_dlogit, x2]
