@@ -815,7 +815,22 @@ class tiger_cnn8(nn.Module):
         return erased_feature_maps
 
     def fix_params(self, is_training=True):
-        pass
+        for p in self.backbone.parameters():
+            p.requires_grad = is_training
+        for p in self.erase.parameters():
+            p.requires_grad = is_training
+        for p in self.fc7.parameters():
+            p.requires_grad = is_training
+        for p in self.cls.parameters():
+            p.requires_grad = is_training
+        for p in self.cls_direction.parameters():
+            p.requires_grad = is_training
+        for p in self.erase_fc7.parameters():
+            p.requires_grad = is_training
+        for p in self.erase_cls.parameters():
+            p.requires_grad = is_training
+        for p in self.erase_cls_direction.parameters():
+            p.requires_grad = is_training
 
     def get_loss(self, logits, labels, direction):
 
