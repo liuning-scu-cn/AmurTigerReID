@@ -54,6 +54,11 @@ in test.py
 If you want to get our all models and logs, please download from [https://pan.baidu.com/s/11RslAFW9g7kS8I4IVZC_Iw](https://pan.baidu.com/s/11RslAFW9g7kS8I4IVZC_Iw), and passward code is ```7iic```.
 Then you can save it to ./model.
 
+### ReID Rank
+<div align="center">
+    <img src="showing/ReID.jpg" width="800px"/>
+</div>
+
 ### Thanks
 - [CVWC 2019 Organizing Team](https://cvwc2019.github.io/)
 - [EvalAI Team](https://evalai.cloudcv.org)
