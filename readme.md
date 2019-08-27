@@ -41,14 +41,14 @@ test_set &ensp;&ensp;&ensp;=> &ensp;&ensp;./dataload/dataloader.py
 
 
 ### Train  
-in train.py, finetune_tiger_cnn5.py, and finetune_tiger_cnn8.py. 
+In train.py, finetune_tiger_cnn5.py, and finetune_tiger_cnn8.py. 
 
 If you want to run finetune_tiger_cnn5.py, you firstly need to train tiger_cnn1 model.
 
 If you want to run finetune_tiger_cnn8.py, you firstly need to train tiger_cnn3 model.
 
 ### Test  
-in test.py  
+In test.py  
 
 ### Model
 If you want to get our all models and logs, please download from [https://pan.baidu.com/s/11RslAFW9g7kS8I4IVZC_Iw](https://pan.baidu.com/s/11RslAFW9g7kS8I4IVZC_Iw), and passward code is ```7iic```.
